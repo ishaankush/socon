@@ -1,15 +1,18 @@
-// ProductListScreen.js
+// HomeScreen.js
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, FlatList, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Button, FlatList, Image, TouchableOpacity, Alert } from 'react-native';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = ({ navigation }) => {
   const [products, setProducts] = useState([]);
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
-    // Fetch data when component mounts
+    // Fetch data and load favorites when component mounts
     fetchProducts();
+    loadFavorites();
   }, []);
 
   const fetchProducts = async () => {
@@ -21,21 +24,66 @@ const HomeScreen = ({ navigation }) => {
     }
   };
 
+  const loadFavorites = async () => {
+    try {
+      const jsonFavorites = await AsyncStorage.getItem('favorites');
+      if (jsonFavorites) {
+        setFavorites(JSON.parse(jsonFavorites));
+      }
+    } catch (error) {
+      console.error('Error loading favorites from AsyncStorage:', error);
+    }
+  };
+
+  const saveFavorites = async () => {
+    try {
+      await AsyncStorage.setItem('favorites', JSON.stringify(favorites));
+    } catch (error) {
+      console.error('Error saving favorites to AsyncStorage:', error);
+    }
+  };
+
+  const toggleFavorite = (product) => {
+    const isFavorite = favorites.some((favProduct) => favProduct.id === product.id);
+    if (isFavorite) {
+      // Remove from favorites
+      setFavorites(favorites.filter((favProduct) => favProduct.id !== product.id));
+    } else {
+      // Add to favorites if not exceeding the limit
+      if (favorites.length < 5) {
+        setFavorites([...favorites, product]);
+      } else {
+        // Alert user if trying to add more than 5 favorites
+        Alert.alert('Maximum Favorites Reached', 'You can only mark up to 5 items as favorites.');
+      }
+    }
+    // Save favorites to AsyncStorage
+    saveFavorites();
+  };
+
   const renderProductItem = ({ item }) => (
-    <TouchableOpacity onPress={() => navigation.navigate('Detail', { product: item })}>
+    <TouchableOpacity onPress={() => navigation.navigate('Detail', { product: item, toggleFavorite })}>
       <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
         <Image source={{ uri: item.thumbnail }} style={{ width: 50, height: 50, marginRight: 10 }} />
         <Text>{item.title}</Text>
+        <Button
+          title={favorites.some((favProduct) => favProduct.id === item.id) ? 'Remove Favorite' : 'Add Favorite'}
+          onPress={() => toggleFavorite(item)}
+        />
       </View>
     </TouchableOpacity>
   );
 
   return (
     <View>
+      <Button
+        title="View Favorites"
+        onPress={() => navigation.navigate('Favorites')}
+      />
       <FlatList
         data={products}
         renderItem={renderProductItem}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => (item.id ? item.id.toString() : '')} // Add a null check for item.id
       />
     </View>
   );
