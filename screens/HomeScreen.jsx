@@ -70,13 +70,17 @@ const HomeScreen = ({ navigation }) => {
   const renderProductItem = ({ item }) => (
     <TouchableOpacity onPress={() => navigation.navigate('Detail', { product: item, toggleFavorite })}>
       <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
-        <Image source={{ uri: item.thumbnail }} style={{ width: 50, height: 50, marginRight: 10 }} />
-        <Text>{item.title}</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+          <Image source={{ uri: item.thumbnail }} style={{ width: 50, height: 50, marginRight: 10 }} />
+          <Text>{item.title}</Text>
+        </View>
         <Button
           title={favorites.some((favProduct) => favProduct.id === item.id) ? 'Remove Favorite' : 'Add Favorite'}
           onPress={() => toggleFavorite(item)}
+          style={{ position: 'absolute', right: 10 }}
         />
-      </View>
+    </View>
+
     </TouchableOpacity>
   );
 

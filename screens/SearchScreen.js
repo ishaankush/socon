@@ -47,12 +47,27 @@ const SearchScreen = ({ route,navigation }) => {
         placeholder="Search products..."
         value={searchQuery}
         onChangeText={setSearchQuery}
+        style={{
+          height: 40, 
+          fontSize: 16, 
+          paddingHorizontal: 10, 
+          marginTop: 20,
+          marginBottom:5,
+          marginHorizontal:20,
+          borderWidth: 2, 
+          borderColor: 'gray', 
+           
+        }}
       />
-      <Button
-        title="Search"
-        onPress={handleSearch}
-        disabled={isLoading}
-      />
+
+      <View style={{ width: 100, marginLeft: 130}}>
+        <Button
+          title="Search"
+          onPress={handleSearch}
+          disabled={isLoading}
+        />
+      </View>
+
       {isLoading && <Text>Loading...</Text>}
       {error && <Text>{error}</Text>}
       {searchResults.length > 0 ? (
@@ -62,7 +77,7 @@ const SearchScreen = ({ route,navigation }) => {
           keyExtractor={item => item.id.toString()}
         />
       ) : (
-        !isLoading && <Text>No results found</Text>
+        !isLoading && <Text style={{fontSize:15, marginLeft:20}}>No results found</Text>
       )}
     </View>
   );

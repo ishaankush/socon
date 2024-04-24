@@ -25,8 +25,6 @@ const FavoriteScreen = () => {
 
   return (
     <View>
-      <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>Favorite Items</Text>
-      
       {favoriteProducts.length > 0 ? (
         <FlatList
           data={favoriteProducts}
@@ -39,7 +37,7 @@ const FavoriteScreen = () => {
           keyExtractor={(item) => (item.id ? item.id.toString() : '')}
         />
       ) : (
-        <Text>No favorite items found</Text>
+        <Text style={{color:'red', fontSize:20}}>No favorite items found</Text>
       )}
     </View>
   );
