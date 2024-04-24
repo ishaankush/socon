@@ -1,5 +1,3 @@
-// FavoriteScreen.js
-
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,7 +6,6 @@ const FavoriteScreen = () => {
   const [favoriteProducts, setFavoriteProducts] = useState([]);
 
   useEffect(() => {
-    // Load favorite products when component mounts
     loadFavoriteProducts();
   }, []);
 

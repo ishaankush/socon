@@ -7,8 +7,7 @@ const DetailScreen = ({ route }) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
-    // Check if the product is already a favorite when the component mounts
-    checkFavorite();
+    checkFavorite();  // check for if already favourite
   }, []);
 
   const checkFavorite = async () => {
@@ -24,9 +23,9 @@ const DetailScreen = ({ route }) => {
   };
 
   const handleToggleFavorite = async () => {
-    toggleFavorite(product); // Toggle favorite status in HomeScreen
-    setIsFavorite(!isFavorite); // Update favorite status locally
-    saveFavoritesToAsyncStorage(); // Save updated favorites to AsyncStorage
+    toggleFavorite(product); 
+    setIsFavorite(!isFavorite); 
+    saveFavoritesToAsyncStorage(); 
   };
 
   const saveFavoritesToAsyncStorage = async () => {
@@ -37,11 +36,9 @@ const DetailScreen = ({ route }) => {
         updatedFavorites = JSON.parse(favorites);
       }
       if (isFavorite) {
-        // Remove the product from favorites
-        updatedFavorites = updatedFavorites.filter((favProduct) => favProduct.id !== product.id);
+        updatedFavorites = updatedFavorites.filter((favProduct) => favProduct.id !== product.id); // remove the product from favorites
       } else {
-        // Add the product to favorites
-        updatedFavorites.push(product);
+        updatedFavorites.push(product); // add the product to favorites
       }
       await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites));
     } catch (error) {
@@ -59,7 +56,6 @@ const DetailScreen = ({ route }) => {
         title={isFavorite ? 'Remove Favorite' : 'Add Favorite'}
         onPress={handleToggleFavorite}
       />
-      {/* Display more details of the product */}
     </View>
   );
 };
