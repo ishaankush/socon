@@ -1,5 +1,3 @@
-// DetailScreen.js
-
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';

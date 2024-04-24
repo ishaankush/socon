@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, FlatList, Text, Image, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 
-const SearchScreen = ({ navigation }) => {
+const SearchScreen = ({ route,navigation }) => {
+  const {toggleFavorite } = route.params;
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-
+ 
   const handleSearch = async () => {
     setIsLoading(true);
     setError(null);
@@ -28,7 +29,7 @@ const SearchScreen = ({ navigation }) => {
   };
 
   const handlePressProduct = (product) => {
-    navigation.navigate('Detail', { product });
+    navigation.navigate('Detail', { product,toggleFavorite });
   };
 
   const renderProductItem = ({ item }) => (

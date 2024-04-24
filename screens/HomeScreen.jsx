@@ -60,9 +60,11 @@ const HomeScreen = ({ navigation }) => {
         Alert.alert('Maximum Favorites Reached', 'You can only mark up to 5 items as favorites.');
       }
     }
-    // Save favorites to AsyncStorage
-    saveFavorites();
   };
+  // Save favorites to AsyncStorage after updating state
+  useEffect(() => {
+    saveFavorites();
+  }, [favorites]);
 
   // Flatlist data of products
   const renderProductItem = ({ item }) => (
@@ -82,7 +84,7 @@ const HomeScreen = ({ navigation }) => {
     <View>
        <Button
         title="Go to Search"
-        onPress={() => navigation.navigate('Search')}
+        onPress={() => navigation.navigate('Search',{toggleFavorite})}
       />
       <Button
         title="View Favorites"
