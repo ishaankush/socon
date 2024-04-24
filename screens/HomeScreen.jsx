@@ -15,6 +15,7 @@ const HomeScreen = ({ navigation }) => {
     loadFavorites();
   }, []);
 
+  // Fetching the products from api 
   const fetchProducts = async () => {
     try {
       const response = await axios.get('https://dummyjson.com/products');
@@ -23,7 +24,7 @@ const HomeScreen = ({ navigation }) => {
       console.error('Error fetching products:', error);
     }
   };
-
+ // loading the state of favourite items 
   const loadFavorites = async () => {
     try {
       const jsonFavorites = await AsyncStorage.getItem('favorites');
@@ -35,6 +36,7 @@ const HomeScreen = ({ navigation }) => {
     }
   };
 
+  // to save favroite in async storage 
   const saveFavorites = async () => {
     try {
       await AsyncStorage.setItem('favorites', JSON.stringify(favorites));
@@ -43,6 +45,7 @@ const HomeScreen = ({ navigation }) => {
     }
   };
 
+  // to change the state of item in favourite or not
   const toggleFavorite = (product) => {
     const isFavorite = favorites.some((favProduct) => favProduct.id === product.id);
     if (isFavorite) {
@@ -61,6 +64,7 @@ const HomeScreen = ({ navigation }) => {
     saveFavorites();
   };
 
+  // Flatlist data of products
   const renderProductItem = ({ item }) => (
     <TouchableOpacity onPress={() => navigation.navigate('Detail', { product: item, toggleFavorite })}>
       <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
@@ -76,6 +80,10 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View>
+       <Button
+        title="Go to Search"
+        onPress={() => navigation.navigate('Search')}
+      />
       <Button
         title="View Favorites"
         onPress={() => navigation.navigate('Favorites')}

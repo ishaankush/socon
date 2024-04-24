@@ -26,6 +26,7 @@ const FavoriteScreen = () => {
   return (
     <View>
       <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>Favorite Items</Text>
+      
       {favoriteProducts.length > 0 ? (
         <FlatList
           data={favoriteProducts}
